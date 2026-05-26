@@ -1,17 +1,52 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title> Reciclagames </title>
-
-    <!-- Tailwind CSS via CDN  -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Eco Clicker - Inovação Verde</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    
 
+    <div class="game-container">
+        <div class="header">
+            <div class="stat-box">
+                <div class="stat-label">Conhecimento 🧠</div>
+                <div class="stat-value" id="score-display">0</div>
+                <div class="stat-cps" id="cps-display">+0/s</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">Energia Limpa ⚡</div>
+                <div class="stat-value" id="energy-display">0%</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">Sustentabilidade 🌱</div>
+                <div class="stat-value" id="tier-display">Nível 1</div>
+            </div>
+        </div>
 
+        <div class="progress-container">
+            <div class="stat-label" style="font-size: 0.7rem;" id="progress-label">Progresso até Nível 2 (0/10 upgrades)</div>
+            <div class="progress-bar-bg">
+                <div class="progress-bar-fill" id="progress-bar"></div>
+            </div>
+        </div>
+
+        <div class="click-area" id="click-area">
+            <button type="button" class="bulb-btn" id="bulb-button" onclick="clickBulb(event)">
+                <svg class="bulb-icon" id="bulb-svg" viewBox="0 0 24 24" fill="#e0e0e0" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2C7.58 2 4 5.58 4 10C4 12.66 5.3 14.97 7.29 16.35C8.35 17.08 9 18.26 9 19.55V21C9 21.55 9.45 22 10 22H14C14.55 22 15 21.55 15 21V19.55C15 18.26 15.65 17.08 16.71 16.35C18.7 14.97 20 12.66 20 10C20 5.58 16.42 2 12 2ZM13 18H11V16H13V18ZM13 14H11V8H13V14Z"/>
+                </svg>
+            </button>
+            <div class="click-prompt">CLIQUE NA LÂMPADA (+1)</div>
+        </div>
+
+        <div class="upgrades-section">
+            <div class="section-title">Upgrades de Inovação</div>
+            <div id="upgrades-list"></div>
+        </div>
+    </div>
+
+    <script src="js/game.js"></script>
 </body>
 </html>

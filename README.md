@@ -24,9 +24,9 @@ reciclagames_IE-IV/
 ├── index.html          # Página principal
 ├── assets/
 │   ├── css/
-│   │   └── app.css     # Estilos personalizados
+│   │   └── style.css     # Estilos personalizados
 │   ├── js/
-│   │   └── main.js     # Lógica principal
+│   │   └── game.js     # Lógica principal
 │   ├── images/         # Imagens dos jogos
 │   └── icon/           # Ícones da aplicação
 └── README.md

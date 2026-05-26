@@ -1,0 +1,265 @@
+:root {
+    --bg-color: #e3f2fd;
+    --card-bg: #ffffff;
+    --primary-green: #4caf50;
+    --dark-green: #388e3c;
+    --accent-blue: #2196f3;
+    --text-color: #333;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    user-select: none;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 10px;
+}
+
+/* Container Principal (Proporção Mobile) */
+.game-container {
+    width: 100%;
+    max-width: 480px;
+    background: #f1f8e9;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 92vh;
+    min-height: 550px;
+}
+
+/* Header / Placar */
+.header {
+    background: white;
+    padding: 15px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-bottom: 2px solid #dcedc8;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.stat-box {
+    text-align: center;
+}
+
+.stat-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: #757575;
+    font-weight: bold;
+}
+
+.stat-value {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: var(--text-color);
+}
+
+.stat-cps {
+    font-size: 0.8rem;
+    color: var(--primary-green);
+    font-weight: bold;
+}
+
+/* Área de Clique */
+.click-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    padding: 20px;
+    background: linear-gradient(to bottom, #e8f5e9, #c8e6c9);
+}
+
+/* MODIFICADO: Caixa estável, z-index alto e centralização forçada */
+.bulb-btn {
+    width: 160px;
+    height: 160px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    position: relative;
+    z-index: 10;
+    pointer-events: auto;
+    transition: transform 0.05s ease-in-out;
+}
+
+.bulb-btn:active {
+    transform: scale(0.92);
+}
+
+.bulb-icon {
+    width: 140px;
+    height: 140px;
+    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.15));
+    transition: filter 0.3s ease;
+    pointer-events: none; /* Impede o desenho interno de roubar o clique */
+}
+
+.bulb-active {
+    filter: drop-shadow(0 0 25px #fbc02d);
+}
+
+.click-prompt {
+    margin-top: 15px;
+    background: var(--primary-green);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 0.9rem;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    z-index: 5;
+}
+
+/* Números Flutuantes (+1) */
+.floating-number {
+    position: absolute;
+    color: var(--dark-green);
+    font-weight: bold;
+    font-size: 1.4rem;
+    pointer-events: none;
+    z-index: 15;
+    animation: floatUp 0.8s ease-out forwards;
+}
+
+@keyframes floatUp {
+    0% { opacity: 1; transform: translateY(0) scale(1); }
+    100% { opacity: 0; transform: translateY(-80px) scale(0.8); }
+}
+
+/* Seção de Upgrades */
+.upgrades-section {
+    background: white;
+    padding: 15px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    box-shadow: 0 -4px 10px rgba(0,0,0,0.05);
+    max-height: 45%;
+    overflow-y: auto;
+}
+
+.section-title {
+    font-size: 0.95rem;
+    font-weight: bold;
+    color: #555;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.upgrade-card {
+    display: flex;
+    align-items: center;
+    background: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 10px;
+    margin-bottom: 10px;
+    transition: background 0.2s;
+}
+
+.upgrade-card.available {
+    background: #fff;
+    border-color: #a5d6a7;
+}
+
+.upgrade-icon {
+    font-size: 2rem;
+    margin-right: 12px;
+    background: #e8f5e9;
+    padding: 8px;
+    border-radius: 10px;
+    width: 50px;
+    text-align: center;
+}
+
+.upgrade-info {
+    flex: 1;
+}
+
+.upgrade-name {
+    font-weight: bold;
+    font-size: 0.95rem;
+}
+
+.upgrade-desc {
+    font-size: 0.75rem;
+    color: #757575;
+    margin-top: 2px;
+}
+
+.upgrade-qty {
+    font-size: 0.8rem;
+    color: var(--accent-blue);
+    font-weight: bold;
+}
+
+.buy-btn {
+    background: #bdbdbd;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: background 0.2s;
+    min-width: 80px;
+    text-align: center;
+}
+
+.upgrade-card.available .buy-btn {
+    background: var(--primary-green);
+}
+
+.upgrade-card.available .buy-btn:hover {
+    background: var(--dark-green);
+}
+
+/* Barra de Progresso */
+.progress-container {
+    padding: 0 15px 10px 15px;
+    background: white;
+}
+
+.progress-bar-bg {
+    background: #e0e0e0;
+    height: 8px;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-top: 4px;
+}
+
+.progress-bar-fill {
+    background: linear-gradient(to right, var(--primary-green), var(--accent-blue));
+    width: 0%;
+    height: 100%;
+    transition: width 0.3s ease;
+}
+
+.upgrades-section::-webkit-scrollbar {
+    width: 6px;
+}
+.upgrades-section::-webkit-scrollbar-thumb {
+    background-color: #c8e6c9;
+    border-radius: 3px;
+}
