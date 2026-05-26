@@ -43,6 +43,7 @@ reciclagames_IE-IV/
 ## Contribuidores
 
 - Carlos Silva
+- Samuel David
 
 ## Licença
 
