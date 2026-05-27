@@ -4,6 +4,8 @@ let gameState = {
     knowledgePerSecond: 0,
     totalUpgradesBought: 0,
     currentTier: 1,
+    totalClicks: 0,
+    unlockedAchievements: [],
     upgrades: [
         {
             id: 'led',
@@ -38,6 +40,159 @@ let gameState = {
     ]
 };
 
+// CONQUISTAS
+const ACHIEVEMENTS = [
+    {
+        id: 'first_click',
+        name: 'Primeiro Passo!',
+        desc: 'Clicou na lâmpada pela primeira vez.',
+        icon: '🚶‍♂️',
+        condition: (state) => state.totalClicks >= 1
+    },
+    {
+        id: 'pioneer',
+        name: 'Pioneiro da energia limpa',
+        desc: 'Comprou seu primeiro upgrade.',
+        icon: '🏅',
+        condition: (state) => state.totalUpgradesBought >= 1
+    },
+    {
+        id: 'clicks_100',
+        name: 'Clicador dedicado',
+        desc: 'Realizou 100 cliques.',
+        icon: '🖱️',
+        condition: (state) => state.totalClicks >= 100
+    },
+    {
+        id: 'knowledge_100',
+        name: 'Estudante ambiental',
+        desc: 'Acumulou 100 de Conhecimento.',
+        icon: '🧠',
+        condition: (state) => state.points >= 100
+    },
+    {
+        id: 'led_5',
+        name: 'Cidade iluminada!',
+        desc: 'Comprou 5 Lâmpadas LED.',
+        icon: '💡',
+        condition: (state) => {
+            const led = state.upgrades.find(u => u.id === 'led');
+            return led && led.quantity >= 5;
+        }
+    },
+    {
+        id: 'solar_1',
+        name: 'Energia solar',
+        desc: 'Instalou seu primeiro painel solar.',
+        icon: '☀️',
+        condition: (state) => {
+            const solar = state.upgrades.find(u => u.id === 'solar');
+            return solar && solar.quantity >= 1;
+        }
+    },
+    {
+        id: 'cps_10',
+        name: 'Conhecimento onstante',
+        desc: 'Atingiu 10 de conhecimento por segundo.',
+        icon: '⚡',
+        condition: (state) => state.knowledgePerSecond >= 10
+    },
+    {
+        id: 'grid_1',
+        name: 'Rede Inteligente',
+        desc: 'Criou sua primeira Smart Grid.',
+        icon: '🌐',
+        condition: (state) => {
+            const grid = state.upgrades.find(u => u.id === 'grid');
+            return grid && grid.quantity >= 1;
+        }
+    },
+    {
+        id: 'tier_2',
+        name: 'Subindo de nível',
+        desc: 'Atingiu o Nível 2 de Sustentabilidade.',
+        icon: '👑',
+        condition: (state) => state.currentTier >= 2
+    },
+    {
+        id: 'knowledge_1000',
+        name: 'Mestre da sustentabilidade',
+        desc: 'Acumulou 1.000 de Conhecimento.',
+        icon: '🌍',
+        condition: (state) => state.points >= 1000
+    },
+    {
+        id: 'tier_5',
+        name: 'Sempre evoluindo',
+        desc: 'Atingiu o Nível 5 de Sustentabilidade.',
+        icon: '🌟',
+        condition: (state) => state.currentTier >= 5
+    }
+];
+
+// FUNÇÃO PARA VERIFICAR E MOSTRAR AS CONQUISTAS
+function checkAchievements() {
+    ACHIEVEMENTS.forEach(achievement => {
+        if (!gameState.unlockedAchievements.includes(achievement.id) && achievement.condition(gameState)) {
+            gameState.unlockedAchievements.push(achievement.id);
+            showAchievementNotification(achievement);
+            saveGame();
+        }
+    });
+}
+
+// FUNÇÃO PARA EXIBIR NOTIFICAÇÃO DAS CONQUISTAS | SONS
+
+const clickAudio = new Audio('assets/sounds/minecraft-click-menu.mp3'); /* SOM TEMPORÁRIO */
+clickAudio.volume = 0.6;
+ 
+function playClickSound() {
+    try {
+        const clickSfx = clickAudio.cloneNode();
+        clickSfx.volume = 0.6;
+        clickSfx.play();
+    } catch (e) {
+        console.warn("Não foi possível reproduzir o som de clique:", e);
+    }
+}
+
+function playAchievementSound() {
+    try {
+        const audio = new Audio('assets/sounds/steam-achievement.mp3');
+        audio.volume = 0.6;
+        audio.play();
+    } catch (e) {
+        console.warn("Não foi possível reproduzir o som de conquista:", e); 
+    }
+}
+
+
+
+function showAchievementNotification(achievement) {
+    playAchievementSound();
+    const notification = document.createElement('div');
+    notification.className = 'achievement-notification';
+    notification.innerHTML = `
+        <div class="achievement-icon">${achievement.icon}</div>
+        <div class="achievement-text">
+            <div class="achievement-title">CONQUISTA DESBLOQUEADA!</div>
+            <div class="achievement-name">${achievement.name}</div>
+            <div class="achievement-desc">${achievement.desc}</div>
+        </div>
+    `;
+    document.body.appendChild(notification);
+
+    // força o reflow para a animação funcionar
+    notification.getBoundingClientRect();
+    notification.classList.add('show');
+
+    setTimeout(() => {
+        notification.classList.remove('show');
+        notification.classList.add('hide');
+        setTimeout(() => notification.remove(), 500);
+    }, 3500);
+}
+
 // 2. ELEMENTOS DO DOM
 const scoreDisplay = document.getElementById('score-display');
 const cpsDisplay = document.getElementById('cps-display');
@@ -68,6 +223,8 @@ if (isStorageAvailable && localStorage.getItem('ecoClickerSave')) {
             gameState.knowledgePerSecond = savedState.knowledgePerSecond || 0;
             gameState.totalUpgradesBought = savedState.totalUpgradesBought || 0;
             gameState.currentTier = savedState.currentTier || 1;
+            gameState.totalClicks = savedState.totalClicks || 0;
+            gameState.unlockedAchievements = savedState.unlockedAchievements || [];
             savedState.upgrades.forEach(savedUp => {
                 const target = gameState.upgrades.find(u => u.id === savedUp.id);
                 if (target) {
@@ -150,9 +307,12 @@ function updateUI() {
 
 // 5. FUNÇÃO DE CLIQUE DA LÂMPADA
 window.clickBulb = function(e) {
+    playClickSound();
     gameState.points += 1;
+    gameState.totalClicks += 1;
     createFloatingNumber(e.clientX, e.clientY);
     updateUI();
+    checkAchievements();
     saveGame();
 };
 
@@ -186,6 +346,7 @@ window.buyUpgrade = function(upgradeId) {
     const upgrade = gameState.upgrades.find(u => u.id === upgradeId);
     
     if (upgrade && gameState.points >= upgrade.cost) {
+        playClickSound();
         gameState.points -= upgrade.cost;
         upgrade.quantity += 1;
         gameState.totalUpgradesBought += 1;
@@ -194,6 +355,7 @@ window.buyUpgrade = function(upgradeId) {
         
         recalculateCPS();
         updateUI();
+        checkAchievements();
         saveGame();
     }
 };
@@ -209,6 +371,7 @@ setInterval(() => {
     if (gameState.knowledgePerSecond > 0) {
         gameState.points += gameState.knowledgePerSecond;
         updateUI();
+        checkAchievements();
         saveGame();
     }
 }, 1000);
