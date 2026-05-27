@@ -425,3 +425,75 @@ body {
 .theme-grid .upgrade-icon-box { background: #e1bee7; border-color: #7b1fa2; }
 .theme-grid .upgrade-cps { color: #6a1b9a; }
 .theme-grid.available .buy-btn-3d { background: #ab47bc; border-color: #6a1b9a; }
+
+/* SISTEMA DE CONQUISTAS */
+.achievement-notification {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(120px);
+    background: white;
+    border: 2px solid #fbc02d;
+    border-bottom: 5px solid #f9a825;
+    border-radius: 16px;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    z-index: 9999;
+    max-width: 320px;
+    width: 90%;
+    opacity: 0;
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s ease;
+}
+
+.achievement-notification.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+.achievement-notification.hide {
+    opacity: 0;
+    transform: translateX(-50%) translateY(120px);
+    transition: transform 0.4s ease, opacity 0.4s ease;
+}
+
+.achievement-icon {
+    font-size: 2.2rem;
+    background: #fff9c4;
+    border: 2px solid #fbc02d;
+    border-radius: 10px;
+    width: 52px;
+    height: 52px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.achievement-text {
+    flex: 1;
+}
+
+.achievement-title {
+    font-size: 0.6rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    color: #f9a825;
+    letter-spacing: 0.5px;
+    margin-bottom: 2px;
+}
+
+.achievement-name {
+    font-size: 0.9rem;
+    font-weight: 800;
+    color: #333;
+    line-height: 1.2;
+}
+
+.achievement-desc {
+    font-size: 0.72rem;
+    color: #757575;
+    margin-top: 2px;
+}
