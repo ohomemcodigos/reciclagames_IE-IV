@@ -23,7 +23,7 @@ let gameState = {
             baseCost: 250,
             cost: 250,
             quantity: 0,
-            icon: '☀️'
+            icon: '<img src="assets/images/Solar.png" alt="Painel Solar" style="width: 100%; height: auto; object-fit: contain;">'
         },
         {
             id: 'grid',
@@ -45,7 +45,7 @@ const energyDisplay = document.getElementById('energy-display');
 const tierDisplay = document.getElementById('tier-display');
 const progressLabel = document.getElementById('progress-label');
 const progressBar = document.getElementById('progress-bar');
-const bulbSvg = document.getElementById('bulb-svg');
+const bulbImg = document.getElementById('bulb-img');
 const clickArea = document.getElementById('click-area');
 const upgradesListContainer = document.getElementById('upgrades-list');
 
@@ -85,21 +85,24 @@ if (isStorageAvailable && localStorage.getItem('ecoClickerSave')) {
 function renderUpgrades() {
     if (!upgradesListContainer) return;
     upgradesListContainer.innerHTML = '';
+    
     gameState.upgrades.forEach(upgrade => {
         const isAvailable = gameState.points >= upgrade.cost;
         
         const card = document.createElement('div');
-        card.className = `upgrade-card ${isAvailable ? 'available' : ''}`;
+        // Adiciona uma classe específica para a cor (led, solar, grid)
+        card.className = `upgrade-card theme-${upgrade.id} ${isAvailable ? 'available' : ''}`;
         
         card.innerHTML = `
-            <div class="upgrade-icon">${upgrade.icon}</div>
+            <div class="upgrade-icon-box">${upgrade.icon}</div>
             <div class="upgrade-info">
                 <div class="upgrade-name">${upgrade.name} <span class="upgrade-qty">(${upgrade.quantity})</span></div>
                 <div class="upgrade-desc">${upgrade.desc}</div>
-                <div class="upgrade-desc" style="color:var(--primary-green); font-weight:bold;">+${upgrade.cps} conhecimento/s</div>
+                <div class="upgrade-cps">+${upgrade.cps} conhecimento por segundo</div>
             </div>
-            <button class="buy-btn" onclick="buyUpgrade('${upgrade.id}')">
-                🧠 ${Math.floor(upgrade.cost)}
+            <button class="buy-btn-3d" onclick="buyUpgrade('${upgrade.id}')">
+                <div class="btn-top-text">COMPRAR</div>
+                <div class="btn-bottom-text">🧠 ${Math.floor(upgrade.cost)}</div>
             </button>
         `;
         upgradesListContainer.appendChild(card);
@@ -123,16 +126,24 @@ function updateUI() {
     let upgradesNoNivelAtual = gameState.totalUpgradesBought % 10;
     if(progressLabel) progressLabel.textContent = `Progresso até Nível ${gameState.currentTier + 1} (${upgradesNoNivelAtual}/10 upgrades)`;
     if(progressBar) progressBar.style.width = `${upgradesNoNivelAtual * 10}%`;
-
-    if (bulbSvg) {
+    
+    if (bulbImg) {
         if (gameState.knowledgePerSecond > 0) {
-            bulbSvg.classList.add('bulb-active');
-            bulbSvg.setAttribute('fill', '#fbc02d');
+            bulbImg.classList.add('bulb-active');
+            bulbImg.src = 'assets/images/acessa.png'; // Acende a lâmpada
         } else {
-            bulbSvg.classList.remove('bulb-active');
-            bulbSvg.setAttribute('fill', '#e0e0e0');
+            bulbImg.classList.remove('bulb-active');
+            bulbImg.src = 'assets/images/apagada.png'; // Apaga a lâmpada
         }
     }
+
+    const ledUp = gameState.upgrades.find(u => u.id === 'led');
+    const solarUp = gameState.upgrades.find(u => u.id === 'solar');
+    const gridUp = gameState.upgrades.find(u => u.id === 'grid');
+    
+    if (document.getElementById('prod-led')) document.getElementById('prod-led').textContent = `💡 LED: +${ledUp.quantity * ledUp.cps}/s`;
+    if (document.getElementById('prod-solar')) document.getElementById('prod-solar').textContent = `☀️ Solar: +${solarUp.quantity * solarUp.cps}/s`;
+    if (document.getElementById('prod-grid')) document.getElementById('prod-grid').textContent = `🌐 Smart Grid: +${gridUp.quantity * gridUp.cps}/s`;
 
     renderUpgrades();
 }
