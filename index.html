@@ -9,49 +9,50 @@
 <body>
 
 <div class="game-container">
-        <div class="header">
-            <div class="stat-box">
-                <div class="stat-label">CONHECIMENTO 🧠</div>
-                <div class="stat-value" id="score-display">0</div>
-                <div class="stat-cps" id="cps-display">+0/s</div>
-            </div>
-            <div class="stat-box">
-                <div class="stat-label">ENERGIA LIMPA ⚡</div>
-                <div class="stat-value" id="energy-display">0%</div>
-            </div>
-            <div class="stat-box">
-                <div class="stat-label">SUSTENTABILIDADE 🌱</div>
-                <div class="stat-value" id="tier-display">Nível 1</div>
-            </div>
+    <div class="header">
+        <div class="stat-box">
+            <div class="stat-label">CONHECIMENTO 🧠</div>
+            <div class="stat-value" id="score-display">0</div>
+            <div class="stat-cps" id="cps-display">+0/s</div>
         </div>
-
-        <div class="click-area" id="click-area">
-            <div class="production-box">
-                <div class="prod-title">PRODUÇÃO</div>
-                <div class="prod-item">👆 Clique: +1</div>
-                <div class="prod-item" id="prod-led">💡 LED: +0/s</div>
-                <div class="prod-item" id="prod-solar">☀️ Solar: +0/s</div>
-                <div class="prod-item" id="prod-grid">🌐 Smart Grid: +0/s</div>
-            </div>
-
-            <button type="button" class="bulb-btn" id="bulb-button" onclick="clickBulb(event)">
-                <img class="bulb-icon" id="bulb-img" src="assets/images/apagada.png" alt="Lâmpada">
-            </button>
-            
-            <button class="click-prompt-btn" onclick="clickBulb(event)">
-                <div class="btn-title">CLIQUE NA LÂMPADA</div>
-                <div class="btn-subtitle">+1 Conhecimento</div>
-            </button>
+        <div class="stat-box">
+            <div class="stat-label">ENERGIA LIMPA ⚡</div>
+            <div class="stat-value" id="energy-display">0%</div>
         </div>
-
-        <div class="upgrades-section">
-            <div class="section-title-box">
-                <span class="section-title">UPGRADES DE INOVAÇÃO</span>
-            </div>
-            <div id="upgrades-list"></div>
+        <div class="stat-box">
+            <div class="stat-label">SUSTENTABILIDADE 🌱</div>
+            <div class="stat-value" id="tier-display">Nível 1</div>
         </div>
     </div>
 
-    <script src="assets/js/game.js"></script>
+    <div class="click-area" id="click-area">
+        <div class="production-box">
+            <div class="prod-title">PRODUÇÃO</div>
+            <div class="prod-item">👆 Clique: +1</div>
+            <div class="prod-item" id="prod-led">💡 LED: +0/s</div>
+            <div class="prod-item" id="prod-solar">☀️ Solar: +0/s</div>
+            <div class="prod-item" id="prod-grid">🌐 Smart Grid: +0/s</div>
+        </div>
+
+        <button type="button" class="bulb-btn" id="bulb-button" onclick="clickBulb(event)">
+            <img class="bulb-icon" id="bulb-img" src="public/images/apagada.png" alt="Lâmpada">
+        </button>
+        
+        <button class="click-prompt-btn" onclick="clickBulb(event)">
+            <div class="btn-title">CLIQUE NA LÂMPADA</div>
+            <div class="btn-subtitle">+1 Conhecimento</div>
+        </button>
+    </div>
+
+    <div class="upgrades-section">
+        <div class="section-title-box">
+            <span class="section-title">UPGRADES DE INOVAÇÃO</span>
+        </div>
+        <div id="upgrades-list"></div>
+    </div>
+</div>
+
+<!-- Core JavaScript -->
+<script src="public/js/game.js"></script>
 </body>
 </html>
